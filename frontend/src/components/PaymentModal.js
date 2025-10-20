@@ -10,8 +10,6 @@ const PaymentModal = ({
   defaultCashGiven = '',
   onConfirm,
 }) => {
-  if (!isOpen) return null;
-
   const [discountType, setDiscountType] = useState(defaultDiscountType);
   const [customDiscount, setCustomDiscount] = useState(defaultCustomDiscount);
   const [cashGiven, setCashGiven] = useState(defaultCashGiven);
@@ -41,6 +39,8 @@ const PaymentModal = ({
       change: chg,
     };
   }, [discountType, customDiscount, totalPrice, cashGiven]);
+
+  if (!isOpen) return null;
 
   const handleConfirm = () => {
     if ((parseFloat(cashGiven) || 0) < netPay) {

@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { FaKeyboard, FaTimes, FaPlus } from 'react-icons/fa';
 
 const ManualAddModal = ({ isOpen, onClose, onAdd }) => {
-  if (!isOpen) return null;
-
   const [code, setCode] = useState('');
   const [quantity, setQuantity] = useState(1);
 
@@ -33,6 +31,8 @@ const ManualAddModal = ({ isOpen, onClose, onAdd }) => {
       handleSubmit();
     }
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="modal-overlay" onClick={onClose}>
