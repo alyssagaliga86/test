@@ -183,7 +183,8 @@ export default function InventoryForm() {
     setCart(cart.filter(item => item.id !== productId));
   };
 
-  const handleClearCart = useCallback(() => setCart([]), []);
+  // Clear the entire cart
+  // We inline clear actions where needed to avoid undefined references in CI builds
 
   const handleCloseReceiptModal = () => {
     setShowReceiptModal(false);
@@ -325,7 +326,7 @@ export default function InventoryForm() {
           break;
         case 'c':
           // Clear cart button
-          handleClearCart();
+          setCart([]);
           break;
         default:
           break;
@@ -337,7 +338,7 @@ export default function InventoryForm() {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [handlePrint, handleClearCart]);
+  }, [handlePrint]);
 
   if (loading) return <div className="loading-message">Loading products...</div>;
 
@@ -1233,7 +1234,7 @@ export default function InventoryForm() {
             <button className="ui-button ui-button-success" onClick={handlePrint} data-action="print" disabled={cart.length === 0}>
               <FaPrint /> Print
             </button>
-            <button className="ui-button ui-button-clear" onClick={handleClearCart} data-action="clear" disabled={cart.length === 0}>
+            <button className="ui-button ui-button-clear" onClick={() => setCart([])} data-action="clear" disabled={cart.length === 0}>
               <FaBan /> Clear cart
             </button>
           </div>
