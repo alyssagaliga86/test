@@ -1027,6 +1027,7 @@ export default function InventoryForm() {
           border-left: 5px solid #00796B; /* Vertical bar */
           padding-left: 15px;
           max-height: calc(100% - 180px); /* Keep actions visible */
+          padding-bottom: 56px; /* Space for sticky total footer */
         }
         /* Keep Print button visible */
         .ui-payment-actions {
@@ -1038,6 +1039,16 @@ export default function InventoryForm() {
           z-index: 2;
           display: flex;
           justify-content: flex-end;
+        }
+
+        /* Sticky total footer inside the cart list */
+        .ui-summary-footer {
+          position: sticky;
+          bottom: 0;
+          background: #ffffff;
+          border-top: 1px solid #E0E0E0;
+          padding: 8px 12px;
+          z-index: 3;
         }
 
         /* Clamp long item names to two lines */
@@ -1205,42 +1216,45 @@ export default function InventoryForm() {
           <div className="ui-cart-section">
             <div className="ui-cart-list">
               {cart.length > 0 ? (
-                <table className="ui-table">
-                  <thead>
-                    <tr>
-                      <th>Item</th>
-                      <th>Qty</th>
-                      <th>Price</th>
-                      <th>Subtotal</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {cart.map((item) => (
-                      <tr key={item.id}>
-                        <td>{item.name}</td>
-                        <td>{item.quantity}</td>
-                        <td>₱{item.price.toFixed(2)}</td>
-                        <td>₱{(item.price * item.quantity).toFixed(2)}</td>
-                        <td>
-                          <button className="ui-button ui-button-clear" onClick={() => handleRemoveFromCart(item.id)}>
-                            <FaBan />
-                          </button>
-                        </td>
+                <>
+                  <table className="ui-table">
+                    <thead>
+                      <tr>
+                        <th>Item</th>
+                        <th>Qty</th>
+                        <th>Price</th>
+                        <th>Subtotal</th>
+                        <th></th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {cart.map((item) => (
+                        <tr key={item.id}>
+                          <td>{item.name}</td>
+                          <td>{item.quantity}</td>
+                          <td>₱{item.price.toFixed(2)}</td>
+                          <td>₱{(item.price * item.quantity).toFixed(2)}</td>
+                          <td>
+                            <button className="ui-button ui-button-clear" onClick={() => handleRemoveFromCart(item.id)}>
+                              <FaBan />
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  <div className="ui-summary-footer">
+                    <div className="ui-summary-row">
+                      <span>Total Price:</span>
+                      <span>₱{totalPrice.toFixed(2)}</span>
+                    </div>
+                  </div>
+                </>
               ) : (
                 <div className="empty-cart-message">
                   <p>Empty cart</p>
                 </div>
               )}
-            </div>
-          
-            <div className="ui-summary-row" style={{ marginTop: '12px' }}>
-              <span>Total Price:</span>
-              <span>₱{totalPrice.toFixed(2)}</span>
             </div>
             
           </div>
