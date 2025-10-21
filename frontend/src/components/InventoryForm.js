@@ -1137,6 +1137,8 @@ export default function InventoryForm() {
                 ref={scanInputRef}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
+                    e.preventDefault();
+                    e.stopPropagation();
                     const value = e.currentTarget.value.trim();
                     if (value) {
                       const qty = Number.isFinite(Number(scanQuantity)) && Number(scanQuantity) > 0 ? Number(scanQuantity) : 1;
@@ -1159,6 +1161,8 @@ export default function InventoryForm() {
                 onChange={(e) => setScanQuantity(Math.max(1, Number(e.target.value) || 1))}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
+                    e.preventDefault();
+                    e.stopPropagation();
                     const code = (scanInputRef.current?.value || '').trim();
                     if (code) {
                       const qty = Number.isFinite(Number(scanQuantity)) && Number(scanQuantity) > 0 ? Number(scanQuantity) : 1;
