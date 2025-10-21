@@ -1023,6 +1023,7 @@ export default function InventoryForm() {
         .ui-cart-list {
           flex-grow: 1;
           overflow-y: auto;
+          position: relative; /* Anchor for sticky header */
           border-left: 5px solid #00796B; /* Vertical bar */
           padding-left: 15px;
           max-height: calc(100% - 180px); /* Keep actions visible */
@@ -1045,6 +1046,15 @@ export default function InventoryForm() {
           display: -webkit-box;
           -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
+        }
+
+        /* Ensure cart header stays visible while scrolling */
+        .ui-table thead th {
+          position: sticky;
+          top: 0;
+          z-index: 5;
+          background-color: #00796B; /* match header background */
+          color: #fff;
         }
 
         .qty-input {
