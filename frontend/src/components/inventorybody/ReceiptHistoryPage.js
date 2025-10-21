@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { apiUrl } from '../../config';
-import { FaPrint, FaEye, FaTrash } from 'react-icons/fa';
+import { FaPrint, FaEye } from 'react-icons/fa';
 
 export default function ReceiptHistoryPage({ onGoBackToPOS, onPrintReceipt, onGoBack }) {
   const [receipts, setReceipts] = useState([]);
@@ -8,8 +8,7 @@ export default function ReceiptHistoryPage({ onGoBackToPOS, onPrintReceipt, onGo
   const [selectedReceipt, setSelectedReceipt] = useState(null);
   const [loadingDetails, setLoadingDetails] = useState(false); // New state for details loading
   const [error, setError] = useState(null);
-  const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [receiptToDelete, setReceiptToDelete] = useState(null);
+  // Deletion confirmation state removed since delete action is removed
   const [showNotificationModal, setShowNotificationModal] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState('');
   const [notificationType, setNotificationType] = useState('success');
@@ -62,16 +61,9 @@ export default function ReceiptHistoryPage({ onGoBackToPOS, onPrintReceipt, onGo
     setError(null);
   };
 
-  const handleDeleteClick = (receipt) => {
-    setReceiptToDelete(receipt);
-    setShowConfirmModal(true);
-  };
+  // Delete functionality removed
 
-  const showCustomNotification = (message, type) => {
-    setNotificationMessage(message);
-    setNotificationType(type);
-    setShowNotificationModal(true);
-  };
+  // Notification helper no longer needed since delete is removed
 
   const handleCloseNotification = () => {
     setShowNotificationModal(false);
@@ -79,56 +71,11 @@ export default function ReceiptHistoryPage({ onGoBackToPOS, onPrintReceipt, onGo
     setNotificationType('success');
   };
 
-  const handleConfirmDelete = async () => {
-    if (receiptToDelete) {
-      try {
-        const response = await fetch(apiUrl(`/receipts/${receiptToDelete.id}`), {
-          method: 'DELETE',
-        });
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+  // Delete confirmation handler removed
 
-        await fetchReceipts(); // Refresh the list of receipts
-        setShowConfirmModal(false);
-        setReceiptToDelete(null);
-        showCustomNotification('Receipt deleted successfully!', 'success');
-      } catch (err) {
-        console.error('Error deleting receipt:', err);
-        setShowConfirmModal(false);
-        setReceiptToDelete(null);
-        showCustomNotification('Failed to delete receipt. Please try again.', 'error');
-      }
-    }
-  };
+  // Delete cancel handler removed
 
-  const handleCancelDelete = () => {
-    setShowConfirmModal(false);
-    setReceiptToDelete(null);
-  };
-
-  // Confirmation Modal Component
-  const ConfirmationModal = ({ message, onConfirm, onCancel }) => (
-    <div className="custom-modal-overlay">
-      <div className="custom-modal-content">
-        <p>{message}</p>
-        <div className="custom-modal-actions">
-          <button
-            onClick={onConfirm}
-            className="custom-modal-button confirm-button"
-          >
-            Confirm
-          </button>
-          <button
-            onClick={onCancel}
-            className="custom-modal-button cancel-button"
-          >
-            Cancel
-          </button>
-        </div>
-      </div>
-    </div>
-  );
+  // Confirmation Modal removed
 
   // Notification Modal Component
   const NotificationModal = ({ message, type, onClose }) => (
@@ -284,12 +231,6 @@ export default function ReceiptHistoryPage({ onGoBackToPOS, onPrintReceipt, onGo
                         >
                           <FaEye /> View
                         </button>
-                        <button
-                          onClick={() => handleDeleteClick(receipt)}
-                          className="icon-button delete-button"
-                        >
-                          <FaTrash /> Delete
-                        </button>
                       </td>
                     </tr>
                   );
@@ -300,13 +241,7 @@ export default function ReceiptHistoryPage({ onGoBackToPOS, onPrintReceipt, onGo
         </div>
       )}
 
-      {showConfirmModal && (
-        <ConfirmationModal
-          message={`Are you sure you want to delete receipt ${receiptToDelete?.receipt_number || receiptToDelete?.id}? This action cannot be undone.`}
-          onConfirm={handleConfirmDelete}
-          onCancel={handleCancelDelete}
-        />
-      )}
+      {/* Delete confirmation modal removed */}
 
       {showNotificationModal && (
         <NotificationModal
@@ -569,13 +504,7 @@ export default function ReceiptHistoryPage({ onGoBackToPOS, onPrintReceipt, onGo
           background-color: #e6f7ff;
         }
 
-        .icon-button.delete-button {
-          color: #dc3545;
-        }
-
-        .icon-button.delete-button:hover {
-          background-color: #ffe6e6;
-        }
+        /* Delete styles removed */
 
         /* Custom Modal Styles (copied from StockReport.js) */
         .custom-modal-overlay {
