@@ -63,11 +63,7 @@ export default function ReceiptHistoryPage({ onGoBackToPOS, onPrintReceipt, onGo
 
   // Delete functionality removed
 
-  const showCustomNotification = (message, type) => {
-    setNotificationMessage(message);
-    setNotificationType(type);
-    setShowNotificationModal(true);
-  };
+  // Notification helper no longer needed since delete is removed
 
   const handleCloseNotification = () => {
     setShowNotificationModal(false);
@@ -79,28 +75,7 @@ export default function ReceiptHistoryPage({ onGoBackToPOS, onPrintReceipt, onGo
 
   // Delete cancel handler removed
 
-  // Confirmation Modal Component
-  const ConfirmationModal = ({ message, onConfirm, onCancel }) => (
-    <div className="custom-modal-overlay">
-      <div className="custom-modal-content">
-        <p>{message}</p>
-        <div className="custom-modal-actions">
-          <button
-            onClick={onConfirm}
-            className="custom-modal-button confirm-button"
-          >
-            Confirm
-          </button>
-          <button
-            onClick={onCancel}
-            className="custom-modal-button cancel-button"
-          >
-            Cancel
-          </button>
-        </div>
-      </div>
-    </div>
-  );
+  // Confirmation Modal removed
 
   // Notification Modal Component
   const NotificationModal = ({ message, type, onClose }) => (
