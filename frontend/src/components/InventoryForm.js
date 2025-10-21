@@ -723,8 +723,8 @@ export default function InventoryForm() {
           display: grid;
           grid-template-columns: 2fr 1fr 1fr 0.5fr;
           align-items: center;
-          gap: 10px;
-          padding: 10px;
+          gap: 6px;
+          padding: 6px 10px;
           border-bottom: 1px dashed #eee;
           transition: background-color 0.2s ease;
         }
@@ -997,13 +997,26 @@ export default function InventoryForm() {
         .ui-table th {
           background-color: #00796B;
           color: white;
-          padding: 12px;
+          padding: 8px 10px;
           text-align: left;
+          vertical-align: middle;
         }
         
         .ui-table td {
-          padding: 12px;
+          padding: 6px 10px;
           border-bottom: 1px solid #E0E0E0;
+          vertical-align: middle;
+        }
+
+        /* Align numeric columns neatly */
+        .ui-table td:nth-child(2) { /* Qty */
+          text-align: center;
+          white-space: nowrap;
+        }
+        .ui-table td:nth-child(3), /* Price */
+        .ui-table td:nth-child(4)  /* Subtotal */ {
+          text-align: right;
+          white-space: nowrap;
         }
 
         .ui-table-container {
