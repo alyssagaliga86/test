@@ -1134,11 +1134,16 @@ export default function InventoryForm() {
                 ref={scanInputRef}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
+                    e.preventDefault();
+                    e.stopPropagation();
                     const value = e.currentTarget.value.trim();
                     if (value) {
                       const qty = Number.isFinite(Number(scanQuantity)) && Number(scanQuantity) > 0 ? Number(scanQuantity) : 1;
                       handleScanProduct(value, qty);
                       e.currentTarget.value = '';
+                      // Move focus to qty for fast workflows
+                      const qtyEl = document.getElementById('scanQty');
+                      if (qtyEl) qtyEl.focus();
                     }
                   }
                 }}
@@ -1151,6 +1156,20 @@ export default function InventoryForm() {
                 placeholder="Qty"
                 value={scanQuantity}
                 onChange={(e) => setScanQuantity(Math.max(1, Number(e.target.value) || 1))}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const code = (scanInputRef.current?.value || '').trim();
+                    if (code) {
+                      const qty = Number.isFinite(Number(scanQuantity)) && Number(scanQuantity) > 0 ? Number(scanQuantity) : 1;
+                      handleScanProduct(code, qty);
+                      if (scanInputRef.current) {
+                        scanInputRef.current.value = '';
+                      }
+                    }
+                  }
+                }}
               />
             </div>
           </div>
